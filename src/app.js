@@ -20,6 +20,7 @@ var MainMenuLayer = cc.Layer.extend({
     	// 层级设置，遮挡后面的subItem。
     	var j = GC.menuItem.length;
     	for (var i = 0; i < GC.menuItem.length; i++){
+    		// 菜单精灵
     		var menuSprite = new MMMainMenuSprite(i);
     		if (i % 2 == 0){
     			menuSprite.x = menuSprite.width / 2;

@@ -48,7 +48,7 @@ var MMMainMenuSprite = cc.Sprite.extend({
 	 */
 	loadInit: function(){
 		var size = cc.winSize;
-		this.setTextureRect(cc.rect(0, 0, size.width / 2, size.height / 2));
+		this.setTextureRect(cc.rect(0, 0, size.width / 2, size.height / 4));
 		// 设置背景颜色
 		this.setColor(this._configs.color);
 	},
@@ -119,7 +119,7 @@ var MMMainMenuSprite = cc.Sprite.extend({
 		var j = this._configs.subItem.length;
 		for (var i = 0; i < this._configs.subItem.length; i++){
 			// 两个索引。用来获取GC.subItem.menuItem中的项，得到玩法。
-			var node = new MenuItemSprite(this._index, i);
+			var node = new MMMainMenuItemSprite(this._index, i);
 			node.x = size.width / 2;
 			node.y = j * size.height / 3 - node.height / 2;
 			this.scrollView.addChild(node);
