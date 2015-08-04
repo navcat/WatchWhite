@@ -32,8 +32,8 @@ var GamePlayLayer = cc.Layer.extend({
 		this._super();
 		// 加载配置
 		this.loadConfig(model, playMethod);
-		// 加载黑白块
-		this.loadBlock();
+		// 加载第一个游戏页面
+		this.loadFirstScreen();
 		// 加载开始标题
 		this.loadStartTitle();
 		// 游戏[开始]
@@ -77,9 +77,9 @@ var GamePlayLayer = cc.Layer.extend({
 		this._tileSize = cc.size(width, height);
 	},
 	/**
-	 * 加载黑白块
+	 * 加载第一个游戏页面
 	 */
-	loadBlock: function(){
+	loadFirstScreen: function(){
 		// 添加游戏背景层
 		this._tileLayer = new cc.Layer();
 		this.addChild(this._tileLayer);
@@ -99,7 +99,7 @@ var GamePlayLayer = cc.Layer.extend({
 			for (var j = 0; j < this._cell; j++){
 				var touchEnabled = true;		// 是否可以点击
 				var type = TileType.DONT_TOUCH;
-				// 第一行 不可点击
+				// 第一行 不可点击[起跑线]
 				if (i == 0){
                      type = TileType.START_LINE;
                      touchEnabled = false;
@@ -111,18 +111,18 @@ var GamePlayLayer = cc.Layer.extend({
                  var x = j * (this._tileSize.width + GC.titleSpace) + this._tileSize.width / 2;
                  // positionY
                  var y = i * (this._tileSize.height + GC.titleSpace) + this._tileSize.height / 2;
-                 var node = this.createTileSprite(x, y, type);  // 建立白块
+                 var node = this.createTileSprite(x, y, type);  // 建立方块
                  this._tileLayer.addChild(node);
                  this._tiles[i].push(node);
 
-                 if (touchEnabled != false){
+                 if (touchEnabled){
                      node.loadListener();
                  }
         	}
         }
 	},
 	/**
-	 * 创建白块
+	 * 建立方块
 	 * 
 	 * @param x postionX坐标
 	 * @param y	postionY坐标
@@ -140,7 +140,6 @@ var GamePlayLayer = cc.Layer.extend({
      */
     loadStartTitle : function(){
     	var fontSize = 64;
-
     	if (this._cell == 5){
     		fontSize = 48;
     	}else if(this._cell == 6){
@@ -162,6 +161,9 @@ var GamePlayLayer = cc.Layer.extend({
     	this.gameState = GameState.PLAYING;
     	this.scheduleUpdate();
     },
+    /**
+     * 更新屏幕上方的时间统计
+     */
     update : function(dt){
     	this._time += dt;	
     	// [正则表达式]获取小数点后三位
@@ -170,12 +172,17 @@ var GamePlayLayer = cc.Layer.extend({
     	var finalStr = timeStr.replace(regex,"$1''");
     	this._timeLabel.setString(finalStr);
     },
+    /**
+     * 点击之后的回调函数
+     * 
+     * @param sender
+     * @param isOver
+     */
     onTileCallBack : function(sender, isOver){
 //  	var self = sender.parent.parent;
     	var self = this.parent.parent;
 
-    	cc.log("sss");
-//  	游戏快到终点
+    	// 游戏快到终点
     	if (self._tapTileCount == self._tileMaxNum - self._row){
     		self._isGameBeEnd = true;
     	}else if(self._tapTileCount == self._tileMaxNum - 1){    // _tapTileCount是在移动后面才+1的，所以这里相等判断要-1
@@ -191,18 +198,27 @@ var GamePlayLayer = cc.Layer.extend({
     		self.onTileMove();
     	}
     },
+    /**
+     * 屏幕移动方块
+     * 
+     * 每点击一次黑块，屏幕向下移动一格， 超出屏幕的部分删除
+     */
     onTileMove : function(){
     	var callFun = cc.callFunc(this.addTile.bind(this));
     	var moveByAction = cc.moveBy(0.2, cc.p(this._moveDir.x * this._tileSize.width, this._moveDir.y * (this._tileSize.height  + GC.titleSpace)));
     	var action = cc.sequence(moveByAction,callFun);
     	this._tileLayer.runAction(action);
     },
+    /**
+     * 更新屏幕上的方块
+     * 
+     * @param sender
+     */
     addTile : function(sender){
     	for (var i = 0; i < this._tiles[0].length; i++){
     		// 超出屏幕后删除
     		this._tiles[0][i].removeFromParent();
     	}
-
     	// 删除第一维数组
     	this._tiles.shift();
 
@@ -213,9 +229,8 @@ var GamePlayLayer = cc.Layer.extend({
 
     	// 注意：这里是this._tiles.length, 而不是this._tiles.length - 1
     	this._tiles[this._tiles.length] = new Array();
-
+    	// 画新的一行
     	var num = Math.floor(Math.random() * this._cell);
-
     	for (var i = 0; i < this._cell; i++){
 
     		var type = TileType.DONT_TOUCH;
