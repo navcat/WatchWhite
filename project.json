@@ -1,19 +1,22 @@
 {
-  "project_type": "javascript",
-  "debugMode": 1,
-  "showFPS": true,
-  "frameRate": 60,
-  "id": "gameCanvas",
-  "renderMode": 0,
-  "engineDir": "frameworks/cocos2d-html5",
-  "modules": [
-    "cocos2d"
-  ],
-  "jsList": [
-    "src/resource.js",
-    "src/config.js",
-    "src/app.js",
-    "src/mainMenu/sprite/MMMenuSprite.js",
-    "src/mainMenu/sprite/MMMenuItemSprite.js"
-  ]
+    "project_type":"javascript",
+    "debugMode":1,
+    "showFPS":true,
+    "frameRate":60,
+    "id":"gameCanvas",
+    "renderMode":0,
+    "engineDir":"frameworks/cocos2d-html5",
+    "modules":[
+        "cocos2d",
+        "extensions"
+    ],
+    "jsList":[
+        "src/resource.js",
+        "src/config.js",
+        "src/app.js",
+        "src/mainMenu/sprite/MMMenuSprite.js",
+        "src/mainMenu/sprite/MMMenuItemSprite.js",
+        "src/gamePlay/GamePlayLayer.js",
+        "src/gamePlay/sprite/GPTileSprite.js"
+    ]
 }

@@ -56,13 +56,20 @@ var MMMainMenuItemSprite = cc.Sprite.extend({
 	onTouchEnded : function (touch, event) {
 		var target = this.target;
 
+		// 如果为非长按事件，则进入游戏
 		var isEffective = target.checkTouch(target._touchOffset, touch.getLocation());
 		if (isEffective){
 			// 进入游戏
-//			target.onGamePlayEnter();
+			target.onGamePlayEnter();
 			target._touchOffset = cc.p(0, 0);
 		}
 	},
+	/**
+	 * 检测是否为长按
+	 * @param pos1
+	 * @param pos2
+	 * @returns
+	 */
 	checkTouch : function(pos1, pos2){
 		var offsetX = Math.abs(pos2.x - pos1.x);
 		var offsetY = Math.abs(pos2.y - pos1.y);
@@ -83,7 +90,6 @@ var MMMainMenuItemSprite = cc.Sprite.extend({
 		switch (num){
 		case 0 :
 			finalScene = new cc.TransitionSlideInL(time,scene);
-
 			break;
 		case 1 :
 			finalScene = new cc.TransitionSlideInR(time,scene);
