@@ -259,17 +259,17 @@ var GamePlayLayer = cc.Layer.extend({
     	// 游戏结束
     	this.gameState = GameState.END;
 
-//    	var data = {
-//    			model       : this._model,
-//    			playMethod  : this._playMethod,
-//    			count       : this._tapTileCount,
-//    			time        : this._time,
-//    			isWin       : this._isWin
-//    	};
-//    	var scene = new cc.Scene();
-//    	var layer = new GameOverLayer(data);
-//    	scene.addChild(layer);
-//    	cc.director.runScene(new cc.TransitionFadeTR(0.5, scene));
+    	var data = {
+    			model       : this._model,
+    			playMethod  : this._playMethod,
+    			count       : this._tapTileCount,
+    			time        : this._time,
+    			isWin       : this._isWin
+    	};
+    	var scene = new cc.Scene();
+    	var layer = new GameOverLayer(data);
+    	scene.addChild(layer);
+    	cc.director.runScene(new cc.TransitionFadeTR(0.5, scene));
     	cc.log("游戏结束");
     }
 });
