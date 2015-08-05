@@ -1,4 +1,8 @@
-
+/**
+ * 游戏结束
+ * @author NavCat
+ * @created 2015-8-5 22:11:58
+ */
 
 var GameOverLayer = cc.LayerColor.extend({
 	_model       : -1,
@@ -9,8 +13,11 @@ var GameOverLayer = cc.LayerColor.extend({
 	ctor:function (data) {
 		this._super();
 		this.loadConfig(data);
+		// 设置背景颜色
 		this.loadInit();
+		// 加载标题及文字等
 		this.loadTitle();
+		// 返回/结束菜单
 		this.loadMenu();
 		return true;
 	},
@@ -21,22 +28,30 @@ var GameOverLayer = cc.LayerColor.extend({
 		this._time       = data.time,
 		this._isWin      = data.isWin
 	},
+	/**
+	 * 设置背景颜色
+	 */
 	loadInit : function(){
 		var color = this._isWin ? cc.color(0, 155, 45) : cc.color(180, 0, 0);
 		this.setColor(color);
 	},
+	/**
+	 * 加载标题及文字等
+	 */
 	loadTitle : function(){
-
+		// 主标题
 		var modelStr = GC.menuItem[this._model].title + "模式";
 		var modelLabel = new cc.LabelTTF(modelStr, "Arial", 64);
 		this.addChild(modelLabel);
 		modelLabel.setPosition(GC.w2, GC.h - 200);
 
+		// 子标题
 		var playMethodStr = GC.menuItem[this._model].subItem[this._playMethod];
 		var playMethodLabel = new cc.LabelTTF(playMethodStr, "Arial", 24);
 		this.addChild(playMethodLabel);
 		playMethodLabel.setPosition(modelLabel.x + 120, modelLabel.y + 60);
 
+		// 游戏结果
 		var winOrLoseStr = this._isWin ? "赢了！" : "输了!";
 		var winOrLoseLabel = new cc.LabelTTF(winOrLoseStr, "Arial", 200);
 		this.addChild(winOrLoseLabel);
@@ -56,6 +71,9 @@ var GameOverLayer = cc.LayerColor.extend({
 		historyOrNewLabel.setPosition(GC.w2, GC.h2 - 150);
 		historyOrNewLabel.setColor(cc.color.BLACK);
 	},
+	/**
+	 * 返回/结束菜单
+	 */
 	loadMenu : function(){
 		var goLabel = new cc.LabelTTF("继续玩", "Arial", 48);
 		var goMenuItem = new cc.MenuItemLabel(goLabel, function(){
