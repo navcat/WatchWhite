@@ -7,8 +7,8 @@
 var GC = GC || {};
 
 // 游戏窗口的宽度和高度
-GC.w = 640;	
-GC.h = 960;
+GC.w = 480;	
+GC.h = 854;
 
 GC.size = cc.size(GC.w, GC.h);   // 设置大小
 

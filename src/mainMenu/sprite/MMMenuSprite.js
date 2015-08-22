@@ -48,6 +48,7 @@ var MMMainMenuSprite = cc.Sprite.extend({
 	 */
 	loadInit: function(){
 		var size = cc.winSize;
+		cc.log('winsize', size);
 		this.setTextureRect(cc.rect(0, 0, size.width / 2, size.height / 4));
 		// 设置背景颜色
 		this.setColor(this._configs.color);
