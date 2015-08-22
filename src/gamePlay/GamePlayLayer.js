@@ -87,7 +87,8 @@ var GamePlayLayer = cc.Layer.extend({
 		// 添加时间标签
 		this._timeLabel = new cc.LabelTTF(this._time, "Arial", 64);
 		this.addChild(this._timeLabel, 10);
-		this._timeLabel.setPosition(GC.w2, GC.h - this._timeLabel.height);
+		cc.log('this._timeLabel.height', this._timeLabel.getContentSize().height);
+		this._timeLabel.setPosition(GC.w2, GC.h - 50);
 		this._timeLabel.setColor(cc.color.RED);
 
 		// 循环画出黑白块
