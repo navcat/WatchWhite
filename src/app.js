@@ -39,9 +39,8 @@ var MainMenuLayer = cc.Layer.extend({
     	cc.log('menuSprite:', this.getChildrenCount(), menuSprite);
     	// 如果该菜单已经菜单，则删除
     	if(menuSprite !== null){
-//    		this.removeChild(menuSprite);
-    		menuSprite.removeAllChildren();
-    		menuSprite.loadTitle();
+    		menuSprite.removeAllChildren();	// 去除子菜单
+    		menuSprite.loadTitle();   		// 重新加载标题
     		cc.log('removed----');
     	}else{
     		menuSprite = new MMMainMenuSprite(index);
@@ -53,7 +52,7 @@ var MainMenuLayer = cc.Layer.extend({
     			menuSprite.x = menuSprite.width * 1.5;
     			menuSprite.y = GC.h - (index / 2 + 1) * menuSprite.height + menuSprite.height;
     		}
-    		menuSprite.setTag(index);
+    		menuSprite.setTag(index);		// 设置Tag
     		this.addChild(menuSprite);
     	}
     }

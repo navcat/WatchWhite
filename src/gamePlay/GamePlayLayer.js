@@ -140,11 +140,11 @@ var GamePlayLayer = cc.Layer.extend({
      * 加载开始标题
      */
     loadStartTitle : function(){
-    	var fontSize = 64;
+    	var fontSize = 56;
     	if (this._cell == 5){
-    		fontSize = 48;
+    		fontSize = 38;
     	}else if(this._cell == 6){
-    		fontSize = 32;
+    		fontSize = 24;
     	}
 
     	var label = new cc.LabelTTF("开始", "Arial", fontSize);
