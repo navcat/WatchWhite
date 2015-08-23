@@ -7,6 +7,7 @@
  */
 
 var MainMenuLayer = cc.Layer.extend({
+	selectedIndex: -1,
     ctor:function () {
     	this._super();
     	// 加载主菜单
@@ -22,16 +23,38 @@ var MainMenuLayer = cc.Layer.extend({
     	cc.log('the menu size:', j)
     	for (var i = 0; i < GC.menuItem.length; i++){
     		// 菜单精灵
-    		var menuSprite = new MMMainMenuSprite(i);
-    		if (i % 2 == 0){
+    		this.loadMenuItem(i);
+    		j--;
+    	}
+    },
+    /**
+     * 添加首页的菜单项目
+     * @param index
+     * @param x
+     * @param y
+     * @returns MMMainMenuSprite
+     */
+    loadMenuItem: function(index){
+    	var menuSprite = this.getChildByTag(index);
+    	cc.log('menuSprite:', this.getChildrenCount(), menuSprite);
+    	// 如果该菜单已经菜单，则删除
+    	if(menuSprite !== null){
+//    		this.removeChild(menuSprite);
+    		menuSprite.removeAllChildren();
+    		menuSprite.loadTitle();
+    		cc.log('removed----');
+    	}else{
+    		menuSprite = new MMMainMenuSprite(index);
+    		// 设置名称
+    		if (index % 2 == 0){
     			menuSprite.x = menuSprite.width / 2;
-    			menuSprite.y = GC.h - (i / 2 + 1) * menuSprite.height + menuSprite.height / 2;
+    			menuSprite.y = GC.h - (index / 2 + 1) * menuSprite.height + menuSprite.height / 2;
     		}else{
     			menuSprite.x = menuSprite.width * 1.5;
-    			menuSprite.y = GC.h - (i / 2 + 1) * menuSprite.height + menuSprite.height;
+    			menuSprite.y = GC.h - (index / 2 + 1) * menuSprite.height + menuSprite.height;
     		}
-    		this.addChild(menuSprite, j, i);
-    		j--;
+    		menuSprite.setTag(index);
+    		this.addChild(menuSprite);
     	}
     }
 });

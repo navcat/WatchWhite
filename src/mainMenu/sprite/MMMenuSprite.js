@@ -97,7 +97,17 @@ var MMMainMenuSprite = cc.Sprite.extend({
 	},
 	loadSubItem: function(){
 		// 记录当前选中的菜单，在点击其他菜单时，可以根据此记录，删除对应的subItem。
-		this.parent.selectIndex = this._index;
+		var parent = this.parent;  // 主菜单层
+		cc.log(parent);
+		
+		cc.log('parent.selectedIndex:',parent.selectedIndex, 'this._index:', this._index);
+		// 如果当前点击的菜单方格不是已经打开的子菜单，则关闭之前打开的菜单
+		if(parent.selectedIndex !== -1 && parent.selectedIndex !== this._index){
+			// 恢复菜单
+			cc.log('reload main menu', parent.selectedIndex);
+			parent.loadMenuItem(parent.selectedIndex);
+		}
+		parent.selectedIndex = this._index;
 
 		// 逻辑判断[如果没有子项,则不创建scrollView][即：随机-更多]
 		if (this._configs.subItem.length == 0 ){
