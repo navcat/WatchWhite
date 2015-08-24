@@ -23,7 +23,7 @@ var GamePlayLayer = cc.Layer.extend({
 	_tileLayer      : null,             // 黑白块子层。用来直接move所有的黑白块。
 	_moveDir        : Direction.DOWN,   // 移动方向
 	_tapTileCount   : 0,                // 黑块数[踩到的]
-	_time           : 0,                // 时间[花了多少]
+	_time           : 0,            	// 时间[花了多少]
 	_timeLabel      : null,             // 标签[时间]
 	_isWin          : true,             // 是否赢了
 	gameState      : GameState.READY,   // 游戏状态[准备]
@@ -35,9 +35,9 @@ var GamePlayLayer = cc.Layer.extend({
 		// 加载第一个游戏页面
 		this.loadFirstScreen();
 		// 加载开始标题
-		this.loadStartTitle();
-		// 游戏[开始]
-		this.onGameStart();
+//		this.loadStartTitle();
+//		// 游戏[开始]
+//		this.onGameStart();
 	},
 	/**
 	 * 加载配置文件
@@ -62,7 +62,7 @@ var GamePlayLayer = cc.Layer.extend({
 		
 		// 方向判断，是否为逆行 TODO 未完成
 		this._moveDir = (model == 1 && playMethod == 2)? Direction.UP: Direction.DOWN;
-		
+
 		if(model == 0){
 			if(playMethod == 0){
 				this._tileMaxNum = parseInt(title);
@@ -85,10 +85,10 @@ var GamePlayLayer = cc.Layer.extend({
 		this.addChild(this._tileLayer);
 
 		// 添加时间标签
-		this._timeLabel = new cc.LabelTTF(this._time, "Arial", 64);
+		this._timeLabel = new cc.LabelTTF('0.000"', "Arial", 64);
 		this.addChild(this._timeLabel, 10);
-		cc.log('this._timeLabel.height', this._timeLabel.getContentSize().height);
-		this._timeLabel.setPosition(GC.w2, GC.h - 50);
+		cc.log('this._timeLabel.height', this._timeLabel.height);
+		this._timeLabel.setPosition(GC.w2, GC.h - this._timeLabel.height / 2);
 		this._timeLabel.setColor(cc.color.RED);
 
 		// 循环画出黑白块
@@ -102,7 +102,7 @@ var GamePlayLayer = cc.Layer.extend({
 				var type = TileType.DONT_TOUCH;
 				// 第一行 不可点击[起跑线]
 				if (i == 0){
-                     type = TileType.START_LINE;
+					type = TileType.START_LINE;
                      touchEnabled = false;
                  } else if (num == j){		// 生成可以点击的黑色块
                      type = TileType.TOUCH;
@@ -116,9 +116,27 @@ var GamePlayLayer = cc.Layer.extend({
                  this._tileLayer.addChild(node);
                  this._tiles[i].push(node);
 
+                 // 白色块，绑定事件
                  if (touchEnabled){
                      node.loadListener();
                  }
+                 // 添加开始文字
+            	 if(i === 1 && num == j){
+            		 node.name = "start";    // 开始精灵
+            		 cc.log('start--');
+            		 var fontSize = 56;
+            		 if (this._cell == 5){
+            			 fontSize = 38;
+            		 }else if(this._cell == 6){
+            			 fontSize = 24;
+            		 }
+            		 var label = new cc.LabelTTF("开始", "Arial", fontSize);
+            		 label.setPosition(node.width / 2, node.height / 2);
+            		 label.setColor(cc.color.WHITE);
+            		 node.addChild(label);
+            		 cc.log(node);
+            		 node.loadListener();
+            	 }
         	}
         }
 	},

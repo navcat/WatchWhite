@@ -43,8 +43,9 @@ var TileSprite = cc.Sprite.extend({
 	},
 	/**
 	 * 加载事件
+	 * @param gameLayer GamePlayLayer
 	 */
-	loadListener : function(){
+	loadListener : function(gameLayer){
 		var listener = cc.EventListener.create({
 			event           : cc.EventListener.TOUCH_ONE_BY_ONE,
 			target          : this,
@@ -64,6 +65,7 @@ var TileSprite = cc.Sprite.extend({
 		if (!cc.rectContainsPoint(rect, locationInNode)) {
 			return false;
 		}
+
 		// 触摸处理
 		self.onTouchDispose();
 		return true;
@@ -82,6 +84,12 @@ var TileSprite = cc.Sprite.extend({
 	 */
 	onTouchDispose : function(){
 		var self = this;
+		cc.log('-----------', self.name);
+		if(self.name === "start"){
+			// 游戏[开始]
+			cc.log(self.parent);
+			self.parent.parent.onGameStart();
+		}
 		var callFun = cc.callFunc(function(){
 			// 游戏是否结束[如果点击到白块，则游戏结束]
 			var isGameOver = self.type == TileType.DONT_TOUCH ? true : false;
