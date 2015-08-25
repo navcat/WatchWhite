@@ -12,7 +12,17 @@ var MainMenuLayer = cc.Layer.extend({
     	this._super();
     	// 加载主菜单
     	this.loadMainMenu();
+    	// 播放背景音乐
+    	this.runBgMusic();
     	return true;
+    },
+    runBgMusic: function(){
+    	var audioEngine = cc.audioEngine;
+    	// 背景音乐[播放][一次只能播放一首][true和false表示：是否循环播放]
+    	audioEngine.playMusic(res.bg_mp3, true);
+    	cc.log('background music is runing.');
+    	audioEngine.setEffectsVolume(0.5);
+    	audioEngine.setMusicVolume(0.5);
     },
     /**
      * 加载主菜单

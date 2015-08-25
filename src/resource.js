@@ -1,4 +1,5 @@
 var res = {
+	bg_mp3: "res/bgmusic.mp3"
 };
 
 var g_resources = [];
