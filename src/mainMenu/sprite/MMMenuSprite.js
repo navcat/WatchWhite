@@ -100,6 +100,11 @@ var MMMainMenuSprite = cc.Sprite.extend({
 		var parent = this.parent;  // 主菜单层
 		cc.log(parent);
 		
+		// 播放背景音乐
+		var audioEngine = cc.audioEngine;
+		audioEngine.playEffect("res/sound" + this._index + ".m4a");
+		cc.log('playEffect---')
+		
 		cc.log('parent.selectedIndex:',parent.selectedIndex, 'this._index:', this._index);
 		// 如果当前点击的菜单方格不是已经打开的子菜单，则关闭之前打开的菜单
 		if(parent.selectedIndex !== -1 && parent.selectedIndex !== this._index){
