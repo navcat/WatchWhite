@@ -34,8 +34,6 @@ var GamePlayLayer = cc.Layer.extend({
 		this.loadConfig(model, playMethod);
 		// 加载第一个游戏页面
 		this.loadFirstScreen();
-		// 加载开始标题
-//		this.loadStartTitle();
 //		// 游戏[开始]
 //		this.onGameStart();
 	},
@@ -122,7 +120,7 @@ var GamePlayLayer = cc.Layer.extend({
                  }
                  // 添加开始文字
             	 if(i === 1 && num == j){
-            		 node.name = "start";    // 开始精灵
+            		 node.name = "start";    // 开始精灵，为后面点击后开始计时做准备
             		 cc.log('start--');
             		 var fontSize = 56;
             		 if (this._cell == 5){
@@ -155,27 +153,8 @@ var GamePlayLayer = cc.Layer.extend({
         return node;
     },
     /**
-     * 加载开始标题
+     * 开始游戏
      */
-    loadStartTitle : function(){
-    	var fontSize = 56;
-    	if (this._cell == 5){
-    		fontSize = 38;
-    	}else if(this._cell == 6){
-    		fontSize = 24;
-    	}
-
-    	var label = new cc.LabelTTF("开始", "Arial", fontSize);
-    	label.setPosition(this._tileSize.width / 2, this._tileSize.height / 2);
-    	for (var i = 0; i < this._tiles[1].length; i++){
-    		var node = this._tiles[1][i];
-    		if (node.type == TileType.TOUCH){
-    			node.addChild(label);
-    			node.loadListener();
-    			return;
-    		}
-    	}
-    },
     onGameStart : function(){
     	this.gameState = GameState.PLAYING;
     	this.scheduleUpdate();
@@ -213,6 +192,7 @@ var GamePlayLayer = cc.Layer.extend({
     	if (isOver == true){
     		self._isWin = false;
     		self.transitionToGameOver();
+    	// 未结束，继续游戏
     	}else{
     		self.onTileMove();
     	}
@@ -223,8 +203,20 @@ var GamePlayLayer = cc.Layer.extend({
      * 每点击一次黑块，屏幕向下移动一格， 超出屏幕的部分删除
      */
     onTileMove : function(){
+    	for (var i = 0; i < this._tiles[0].length; i++){
+    		// 超出屏幕后删除
+    		this._tiles[0][i].removeFromParent();
+    	}
+    	// 删除第一维数组
+    	this._tiles.shift();
+    	for (var i = 0; i < this._tiles[1].length; i++){
+    		// 第二排开启触摸
+    		this._tiles[1][i].loadListener();
+    	}
+
+    	// 绑定回调函数
     	var callFun = cc.callFunc(this.addTile.bind(this));
-    	var moveByAction = cc.moveBy(0.2, cc.p(this._moveDir.x * this._tileSize.width, this._moveDir.y * (this._tileSize.height  + GC.titleSpace)));
+    	var moveByAction = cc.moveBy(0.01, cc.p(this._moveDir.x * this._tileSize.width, this._moveDir.y * (this._tileSize.height  + GC.titleSpace)));
     	var action = cc.sequence(moveByAction,callFun);
     	this._tileLayer.runAction(action);
     },
@@ -234,18 +226,6 @@ var GamePlayLayer = cc.Layer.extend({
      * @param sender
      */
     addTile : function(sender){
-    	for (var i = 0; i < this._tiles[0].length; i++){
-    		// 超出屏幕后删除
-    		this._tiles[0][i].removeFromParent();
-    	}
-    	// 删除第一维数组
-    	this._tiles.shift();
-
-    	for (var i = 0; i < this._tiles[1].length; i++){
-    		// 第二排开启触摸
-    		this._tiles[1][i].loadListener();
-    	}
-
     	// 注意：这里是this._tiles.length, 而不是this._tiles.length - 1
     	this._tiles[this._tiles.length] = new Array();
     	// 画新的一行
