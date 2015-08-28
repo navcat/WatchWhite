@@ -17,6 +17,7 @@ var MainMenuLayer = cc.Layer.extend({
     	this.runBgMusic();
     	return true;
     },
+
     runBgMusic: function(){
     	// 背景音乐[播放][一次只能播放一首][true和false表示：是否循环播放]
     	this.audioEngine.playMusic(res.bg_mp3, true);
